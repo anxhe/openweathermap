@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <style>
+     #map {
+       height: 100%;
+     }
+     html, body {
+       height: 100%;
+       margin: 0;
+       padding: 0;
+     }
+   </style>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+      window.onload = () => {
+        const req = new XMLHttpRequest();
+        req.open('GET','http://api.openweathermap.org/data/2.5/weather?q=Almería,es&appid=a3a348e0caa4a617475b716bb95e9b8f&units=metric', true);
+        req.onreadystatechange = (aEvt) => {
+          if (req.readyState == 4) {
+            if (req.status == 200) {
+              let response = JSON.parse(req.responseText);
+              let lon = response.coord.lon;
+              let lat = response.coord.lat;
+              let temp = response.main.temp;
+              const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 7,
+                center: {lat: lat, lng: lon}
+              });
+              const marker = new google.maps.Marker({
+                position: {lat: lat, lng: lon},
+                map: map,
+              });
+              const infowindow = new google.maps.InfoWindow({
+                content: `<span>Temperatura: ${temp}</span>`
+              });
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+            } else {
+              console.error("Error loading page\n");
+            }
+          }
+        };
+        req.send(null);
+      };
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQy5SjqiSYdvIYaQGr04Ek0jNowtZH6Eg">
+    </script>
+  </body>
+</html>
