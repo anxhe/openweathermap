@@ -19,7 +19,7 @@
     <script type="text/javascript">
       window.onload = () => {
         const req = new XMLHttpRequest();
-        req.open('GET','http://api.openweathermap.org/data/2.5/weather?q=Almería,es&appid=a3a348e0caa4a617475b716bb95e9b8f&units=metric', true);
+        req.open('GET','https://api.openweathermap.org/data/2.5/weather?q=Almería,es&appid=a3a348e0caa4a617475b716bb95e9b8f&units=metric', true);
         req.onreadystatechange = (aEvt) => {
           if (req.readyState == 4) {
             if (req.status == 200) {
